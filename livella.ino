@@ -29,14 +29,14 @@ void Misura(){
   } else if (cm3>cm1){
     x=cm3-cm1;
   }
-  //x deve essere compreso tra 0 e 7
+  //x deve essere compreso tra 1 e 7
 
   if (cm2>cm3){
-    durata=10*(cm2-cm3);
+    durata=200*(cm2-cm3);
   } else if (cm3>cm2){
     durata=200*(cm3-cm2);
   }
-  //durata deve quindi andare da 700 a 10
+  //durata deve quindi andare da 1400 e 200
 }
 
 void Suona(){
