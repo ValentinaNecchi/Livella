@@ -2,7 +2,12 @@
 #include "SR04.h"
 #include <LiquidCrystal.h>
 
-LiquidCrystal lcd(6, 7, 5, 4, 3, 2);
+#define RS A5
+#define EN A4
+#define D4 A3
+#define D5 A2
+#define D6 A1
+#define D7 A0
  
 #define TRIG_PIN1 13
 #define ECHO_PIN1 12
@@ -23,30 +28,24 @@ int x;
 int note[] = {NOTE_C5, NOTE_D5, NOTE_E5, NOTE_F5, NOTE_G5, NOTE_A5, NOTE_B5, NOTE_C6};
 int durata;
 
+LiquidCrystal lcd(RS, EN, D4, D5, D6, D7);
+
 void Misura(){
   if (cm1>cm3){
     x=cm1-cm3;
   } else if (cm3>cm1){
     x=cm3-cm1;
   }
-  //x deve essere compreso tra 1 e 7
+  //x deve essere compreso tra 0 e 7
 
   if (cm2>cm3){
-    durata=200*(cm2-cm3);
+    durata=10*(cm2-cm3);
   } else if (cm3>cm2){
     durata=200*(cm3-cm2);
   }
-  //durata deve quindi andare da 1400 e 200
+  //durata deve quindi andare da 700 a 10
 }
 
-void Suona(){
-  if (cm1==cm2 && cm1==cm3){
-    tone(A0, note[7]);
-  } else {
-    Misura();
-    tone(A0, note[x],durata);
-  }
-}
 
 void setup() {
   lcd.begin(16,2); 
@@ -70,8 +69,13 @@ void loop() {
   lcd.print("Dist 1-3: ");
   lcd.print(diff2);
 
-  Suona();
-
+  if (cm1==cm2 && cm1==cm3){
+    tone(5, note[7]);
+  } else {
+    Misura();
+    tone(5, note[x],durata);
+  }
+  
   delay(1000);
   lcd.clear();
 }
